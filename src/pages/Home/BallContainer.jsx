@@ -50,7 +50,7 @@ const BallContainer = () => {
         className={cn(
           `game_stage`,
           gameStatus === "started" && "game_started",
-          gameStatus === "ended" && "game_ended"
+          gameStatus === "ended" && "game_started game_ended"
         )}
       >
         <div className="stage_overlay" style={{ transition: "1s" }} />
