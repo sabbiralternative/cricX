@@ -1,7 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "../../utils/cn";
+import soundAudio from "../../assets/sound";
+import { useSound } from "../../context/ApiProvider";
+import { playJetGoAway, playJetStart } from "../../utils/sound";
 
 const BallContainer = () => {
+  const audioRef = useRef(null);
+  const { sound } = useSound();
   const [gameStatus, setGameStatus] = useState("pending");
   const [multiply, setMultiply] = useState(1.0);
 
@@ -9,12 +14,18 @@ const BallContainer = () => {
     if (gameStatus === "pending") {
       setMultiply(1.0);
       setTimeout(() => {
+        if (sound) {
+          playJetStart();
+        }
         setGameStatus("started");
       }, 4.433 * 1000);
     }
     if (gameStatus === "started") {
       const randomBetweenTwenty = Math.random() * (20 - 5) + 5;
       setTimeout(() => {
+        if (sound) {
+          playJetGoAway();
+        }
         setGameStatus("ended");
       }, randomBetweenTwenty * 1000);
     }
@@ -40,6 +51,24 @@ const BallContainer = () => {
     }
     return () => clearInterval(interval);
   }, [gameStatus]);
+
+  useEffect(() => {
+    audioRef.current = new Audio(soundAudio.sfx_main);
+    audioRef.current.loop = true;
+  }, []);
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+
+    if (sound) {
+      console.log({ sound });
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+  }, [sound]);
   return (
     <div id="container" className="sub rounded">
       <div id="miniPreloader" style={{ display: "none" }}>

@@ -1,13 +1,14 @@
 import { useSelector } from "react-redux";
 import { useAuth } from "../../hooks/auth";
 import { useEffect, useState } from "react";
-import Settings from "./Settings";
 
+import Settings from "./Settings";
 const Navbar = () => {
   const [showSettings, setShowSettings] = useState(false);
+
   const { token, balance } = useSelector((state) => state.auth);
   const { mutate: handleAuth } = useAuth();
-
+  /* auth */
   useEffect(() => {
     if (token) {
       handleAuth();
@@ -18,7 +19,7 @@ const Navbar = () => {
     <header className="header">
       <div className="header__flex_container">
         <div className="header__flex_container__logo">
-          <img src="/logo_9e20568b3918c1cb0ae1.svg" alt="Cosmo-X logo" />
+          <img src="/logo_f778ad2b2fb8393abe51.svg" alt="Cosmo-X logo" />
         </div>
         <div>
           <div className="card_grid">
@@ -35,7 +36,7 @@ const Navbar = () => {
               </div>
               <div className="back_panel back_panel_text rounded flex items-center">
                 <span id="balanceValue" style={{ fontSize: "12.2004px" }}>
-                  {balance} inr
+                  {balance}
                 </span>
               </div>
             </div>
