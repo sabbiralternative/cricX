@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import BallContainer from "./BallContainer";
 import BetSlip from "./BetSlip";
 import History from "./History";
@@ -9,7 +10,9 @@ import RootSystemUI from "./RootSystemUI";
 import Statistic from "./Statistic";
 
 const Home = () => {
-  return (
+  const { token } = useSelector((state) => state.auth);
+  const errorMessage = sessionStorage.getItem("errorMessage");
+  return token ? (
     <>
       {/* Not using this component */}
       <RootSystemUI />
@@ -32,6 +35,13 @@ const Home = () => {
       {/* Not using this component */}
       <NotUsing />
     </>
+  ) : (
+    <div className="error-container">
+      <div className="alert alert-danger text-center m-0 " role="alert">
+        {errorMessage ||
+          "URL parameters are missing or invalid. Key: token | Value"}
+      </div>
+    </div>
   );
 };
 
